@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Productos para mascotas en Pet House - Alimentos, medicamentos y accesorios de calidad">
+    <title>Pet House - Productos para Mascotas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecera">
+        <div class="contenedor">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>Pet House</h1>
+            </div>
+            <nav class="navegacion">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="productos.html" class="activo">Productos</a>
+                <a href="citas.html">Citas</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="login.php" class="boton-login">Ingresar</a>
+            </nav>
+            <button class="boton-menu" aria-label="Menú móvil">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+            <li><a href="productos.html" class="activo"><i class="fas fa-pills"></i> Productos</a></li>
+            <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+            <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="contenedor">
+        <h1 class="titulo-seccion">Nuestros Productos</h1>
+        <p class="subtitulo-seccion">Calidad y variedad para el cuidado de tu mascota</p>
+        
+        <div class="filtros">
+            <button class="boton-filtro activo" data-categoria="todos">Todos</button>
+            <button class="boton-filtro" data-categoria="alimentos">Alimentos</button>
+            <button class="boton-filtro" data-categoria="medicamentos">Medicamentos</button>
+            <button class="boton-filtro" data-categoria="accesorios">Accesorios</button>
+        </div>
+        
+        <div class="lista-productos">
+            <!-- Producto 1 - Alimento -->
+            <article class="producto" data-categoria="alimentos">
+                <div class="producto-imagen-container">
+                    <img src="img/imagescomida.jpg" alt="Alimento Premium para perros" class="producto-imagen">
+                    <span class="producto-etiqueta">Alimento</span>
+                </div>
+                <div class="producto-info">
+                    <h2 class="producto-titulo">Alimento Premium</h2>
+                    <p class="producto-descripcion">Nutrición balanceada para todas las etapas de tu perro</p>
+                    <div class="producto-precio-container">
+                        <p class="producto-precio">S/.25.99</p>
+                        <p class="producto-precio-anterior">S/.30.99</p>
+                    </div>
+                    <div class="producto-acciones">
+                        <button class="boton boton-producto">
+                            <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <button class="boton-favorito" aria-label="Añadir a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Producto 2 - Medicamento -->
+            <article class="producto" data-categoria="medicamentos">
+                <div class="producto-imagen-container">
+                    <img src="img/medicmanetopet.jpg" alt="Antiparasitario para mascotas" class="producto-imagen">
+                    <span class="producto-etiqueta">Medicamento</span>
+                </div>
+                <div class="producto-info">
+                    <h2 class="producto-titulo">Antiparasitario</h2>
+                    <p class="producto-descripcion">Protección completa contra parásitos internos y externos</p>
+                    <div class="producto-precio-container">
+                        <p class="producto-precio">S/.18.50</p>
+                    </div>
+                    <div class="producto-acciones">
+                        <button class="boton boton-producto">
+                            <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <button class="boton-favorito" aria-label="Añadir a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Producto 3 - Accesorio -->
+            <article class="producto" data-categoria="accesorios">
+                <div class="producto-imagen-container">
+                    <img src="img/accesorios.webp" alt="Juguete para mascotas" class="producto-imagen">
+                    <span class="producto-etiqueta">Accesorio</span>
+                </div>
+                <div class="producto-info">
+                    <h2 class="producto-titulo">Juguete Sorpresa</h2>
+                    <p class="producto-descripcion">Divertido juguete interactivo para horas de diversión</p>
+                    <div class="producto-precio-container">
+                        <p class="producto-precio">S/.100.50</p>
+                        <p class="producto-precio-anterior">S/.120.00</p>
+                    </div>
+                    <div class="producto-acciones">
+                        <button class="boton boton-producto">
+                            <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <button class="boton-favorito" aria-label="Añadir a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Más productos de ejemplo -->
+            <article class="producto" data-categoria="alimentos">
+                <div class="producto-imagen-container">
+                    <img src="img/alimento-gato.jpg" alt="Alimento para gatos" class="producto-imagen">
+                    <span class="producto-etiqueta">Alimento</span>
+                </div>
+                <div class="producto-info">
+                    <h2 class="producto-titulo">Alimento para Gatos</h2>
+                    <p class="producto-descripcion">Nutrición especializada para gatos adultos</p>
+                    <div class="producto-precio-container">
+                        <p class="producto-precio">S/.22.99</p>
+                    </div>
+                    <div class="producto-acciones">
+                        <button class="boton boton-producto">
+                            <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <button class="boton-favorito" aria-label="Añadir a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="producto" data-categoria="medicamentos">
+                <div class="producto-imagen-container">
+                    <img src="img/vitaminas.jpg" alt="Vitaminas para mascotas" class="producto-imagen">
+                    <span class="producto-etiqueta">Medicamento</span>
+                </div>
+                <div class="producto-info">
+                    <h2 class="producto-titulo">Vitaminas Complejas</h2>
+                    <p class="producto-descripcion">Suplemento vitamínico para fortalecer el sistema inmunológico</p>
+                    <div class="producto-precio-container">
+                        <p class="producto-precio">S/.35.75</p>
+                    </div>
+                    <div class="producto-acciones">
+                        <button class="boton boton-producto">
+                            <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <button class="boton-favorito" aria-label="Añadir a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <p>&copy; <span id="year"></span> Pet House - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/boton-menu.js"></script>
+    <script src="js/filtros-productos.js"></script>
+    <script>
+        // Actualizar año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

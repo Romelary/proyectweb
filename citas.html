@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agenda citas para tu mascota en Pet House - Servicios veterinarios profesionales">
+    <title>Pet House - Agendar Cita</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: url('img/fondo/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            padding-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecera">
+        <div class="contenedor">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>Pet House</h1>
+            </div>
+            <nav class="navegacion">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="productos.html">Productos</a>
+                <a href="citas.html" class="activo">Citas</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="login.php" class="boton-login">Ingresar</a>
+            </nav>
+            <button class="boton-menu" aria-label="Menú móvil">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+            <li><a href="productos.html"><i class="fas fa-pills"></i> Productos</a></li>
+            <li><a href="citas.html" class="activo"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+            <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="contenedor">
+        <h1 class="titulo-seccion">Agendar Cita</h1>
+        <p class="subtitulo-seccion">Programa una consulta para el cuidado de tu mascota</p>
+        
+        <form class="formulario-cita" id="formulario-cita">
+            <div class="campo">
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+            </div>
+            
+            <div class="campo">
+                <label for="email">Correo electrónico *</label>
+                <input type="email" id="email" name="email" required placeholder="Ej: juan@example.com">
+            </div>
+            
+            <div class="campo">
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 999888777">
+            </div>
+            
+            <div class="campo">
+                <label for="mascota">Nombre de la mascota *</label>
+                <input type="text" id="mascota-nombre" name="mascota-nombre" required placeholder="Ej: Firulais">
+            </div>
+            
+            <div class="campo">
+                <label for="tipo-mascota">Tipo de mascota *</label>
+                <select id="tipo-mascota" name="tipo-mascota" required>
+                    <option value="">Seleccione</option>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="ave">Ave</option>
+                    <option value="roedor">Roedor</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+            
+            <div class="campo">
+                <label for="servicio">Servicio requerido *</label>
+                <select id="servicio" name="servicio" required>
+                    <option value="">Seleccione un servicio</option>
+                    <option value="consulta-general">Consulta General</option>
+                    <option value="vacunacion">Vacunación</option>
+                    <option value="estetica">Estética Canina</option>
+                    <option value="cirugia">Cirugías</option>
+                    <option value="odontologia">Odontología</option>
+                    <option value="hospitalizacion">Hospitalización</option>
+                    
+                </select>
+            </div>
+            
+            <div class="campo">
+                <label for="fecha">Fecha *</label>
+                <input type="date" id="fecha" name="fecha" required min="">
+            </div>
+            
+            <div class="campo">
+                <label for="hora">Hora *</label>
+                <select id="hora" name="hora" required>
+                    <option value="">Seleccione hora</option>
+                    <!-- Horas se llenarán con JavaScript -->
+                </select>
+            </div>
+            
+            <div class="campo">
+                <label for="comentarios">Comentarios adicionales</label>
+                <textarea id="comentarios" name="comentarios" placeholder="Detalles importantes sobre tu mascota"></textarea>
+            </div>
+            
+            <div class="campo-terminos">
+                <input type="checkbox" id="terminos" name="terminos" required>
+                <label for="terminos">Acepto los términos y condiciones *</label>
+            </div>
+            
+            <button type="submit" class="boton boton-enviar">
+                <i class="fas fa-calendar-check"></i> Solicitar cita
+            </button>
+        </form>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <p>&copy; <span id="year"></span> Pet House - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/boton-menu.js"></script>
+    <script src="js/formulario-citas.js"></script>
+    <script>
+        // Actualizar año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Establecer fecha mínima como hoy
+        document.getElementById('fecha').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

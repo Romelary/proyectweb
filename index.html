@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veterinaria Pet House - Cuidado profesional para tus mascotas">
+    <title>Pet House - Inicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body id="pagina-inicio">
+  
+
+    <header class="cabecera" aria-label="Cabecera principal">
+        <div class="contenedor">
+            <div class="logo">
+                <i class="fas fa-paw" aria-hidden="true"></i>
+                <h1>Pet House</h1>
+            </div>
+            <nav class="navegacion" aria-label="Navegación principal">
+                <a href="index.html" class="activo">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="productos.html">Productos</a>
+                <a href="citas.html">Citas</a>
+                
+                <a href="contacto.html">Contacto</a>
+                <a href="carrito.html">Aprendiendo</a>
+                <a href="login.php" class="boton-login">Ingresar</a>
+            </nav>
+            <button class="boton-menu" aria-label="Menú móvil" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav" aria-label="Navegación móvil">
+        <ul>
+            <li><a href="index.html" class="activo"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+            <li><a href="productos.html"><i class="fas fa-pills"></i> Productos</a></li>
+            <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+            <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="contenedor">
+        <!-- Carrusel de imágenes -->
+        <section class="carrusel">
+            <div class="carrusel-contenedor">
+                <div class="carrusel-slide activo">
+                    <img src="img/perro.jpg" alt="Mascota feliz en nuestra clínica">
+                    <div class="carrusel-texto">
+                        <h2>Cuidado profesional</h2>
+                        <p>Tu mascota en las mejores manos</p>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <img src="img/medicmanetopet.jpg" alt="Servicios de veterinaria">
+                    <div class="carrusel-texto">
+                        <h2>Servicios completos</h2>
+                        <p>Desde consultas hasta cirugías</p>
+                    </div>
+                </div>
+                <div class="carrusel-slide">
+                    <img src="img/imagescomida.jpg" alt="Productos de calidad">
+                    <div class="carrusel-texto">
+                        <h2>Productos premium</h2>
+                        <p>Lo mejor para su salud</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carrusel-btn carrusel-btn-izq" aria-label="Imagen anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carrusel-btn carrusel-btn-der" aria-label="Imagen siguiente">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="carrusel-indicadores"></div>
+        </section>
+
+        <section class="present">
+            <h2>Cuidado profesional para tus mascotas</h2>
+            <p>Amor y dedicación en cada consulta</p>
+            <a href="citas.html" class="boton">Agendar cita</a>
+        </section>
+    </main>
+
+    <footer class="pie-pagina" aria-label="Pie de página">
+        <div class="contenedor">
+            <p>&copy; <span id="year"></span> Patitas Felices - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/boton-menu.js"></script>
+    <script src="js/carrusel.js"></script>
+    <script>
+        // Actualizar año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

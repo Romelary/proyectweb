@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Servicios veterinarios profesionales en Pet House - Cuidado integral para tus mascotas">
+    <title>Pet House - Servicios Veterinarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+   
+</head>
+<body>
+    <style>
+        body {
+                margin-top: 50px;
+               
+        }
+    </style>
+    <header class="cabecera">
+        <div class="contenedor">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>Pet House</h1>
+            </div>
+            <nav class="navegacion">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html" class="activo">Servicios</a>
+                <a href="productos.html">Productos</a>
+                <a href="citas.html">Citas</a>
+                <a href="Aprendiendo.html">Aprendiendo</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="login.php" class="boton-login">Ingresar</a>
+            </nav>
+            <button class="boton-menu" aria-label="Menú móvil">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html" class="activo"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+            <li><a href="productos.html"><i class="fas fa-pills"></i> Productos</a></li>
+            <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+            <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+    
+    <main class="contenedor">
+        <h1 class="titulo-seccion">Nuestros Servicios Veterinarios</h1>
+        <p class="subtitulo-seccion">Cuidado especializado para la salud y bienestar de tu mascota</p>
+        
+        <div class="lista-servicios">
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <h2>Consulta General</h2>
+                <p>Revisión completa de salud para diagnóstico y prevención de enfermedades. Incluye examen físico completo y recomendaciones personalizadas.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Examen físico completo</li>
+                    <li><i class="fas fa-check"></i> Diagnóstico inicial</li>
+                    <li><i class="fas fa-check"></i> Plan de prevención</li>
+                </ul>
+                <a href="citas.html?servicio=consulta-general" class="boton boton-servicio">Agendar Consulta</a>
+            </article>
+            
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-syringe"></i>
+                </div>
+                <h2>Vacunación</h2>
+                <p>Programa completo de vacunas para proteger a tu mascota contra las enfermedades más comunes.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Vacunas básicas</li>
+                    <li><i class="fas fa-check"></i> Refuerzos anuales</li>
+                    <li><i class="fas fa-check"></i> Carnet de vacunación</li>
+                </ul>
+                <a href="citas.html?servicio=vacunacion" class="boton boton-servicio">Agendar Vacunación</a>
+            </article>
+            
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <h2>Estética Canina</h2>
+                <p>Servicios de peluquería y cuidado estético profesional para mantener a tu mascota limpia y saludable.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Baño terapéutico</li>
+                    <li><i class="fas fa-check"></i> Corte de pelo</li>
+                    <li><i class="fas fa-check"></i> Cuidado de uñas</li>
+                </ul>
+                <a href="citas.html?servicio=estetica" class="boton boton-servicio">Agendar Estética</a>
+            </article>
+            
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-bone"></i>
+                </div>
+                <h2>Cirugías</h2>
+                <p>Procedimientos quirúrgicos realizados por especialistas con equipos de última generación.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Esterilización</li>
+                    <li><i class="fas fa-check"></i> Cirugías menores</li>
+                    <li><i class="fas fa-check"></i> Postoperatorio</li>
+                </ul>
+                <a href="citas.html?servicio=cirugia" class="boton boton-servicio">Consultar Cirugía</a>
+            </article>
+            
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-teeth"></i>
+                </div>
+                <h2>Odontología</h2>
+                <p>Cuidado dental profesional para prevenir enfermedades y mantener una boca saludable.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Limpieza dental</li>
+                    <li><i class="fas fa-check"></i> Extracciones</li>
+                    <li><i class="fas fa-check"></i> Ortodoncia canina</li>
+                </ul>
+                <a href="citas.html?servicio=odontologia" class="boton boton-servicio">Agendar Dental</a>
+            </article>
+            
+            <article class="servicio">
+                <div class="servicio-icono">
+                    <i class="fas fa-procedures"></i>
+                </div>
+                <h2>Hospitalización</h2>
+                <p>Atención las 24 horas para mascotas que requieren cuidado y observación constante.</p>
+                <ul class="servicio-lista">
+                    <li><i class="fas fa-check"></i> Monitoreo constante</li>
+                    <li><i class="fas fa-check"></i> Medicación controlada</li>
+                    <li><i class="fas fa-check"></i> Áreas especializadas</li>
+                </ul>
+                <a href="citas.html?servicio=hospitalizacion" class="boton boton-servicio">Emergencias</a>
+            </article>
+        </div>
+        
+        <section class="info-adicional">
+            <h2>¿Por qué elegir nuestros servicios?</h2>
+            <div class="ventajas">
+                <div class="ventaja">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Veterinarios certificados</h3>
+                    <p>Profesionales con especialización y años de experiencia.</p>
+                </div>
+                <div class="ventaja">
+                    <i class="fas fa-clinic-medical"></i>
+                    <h3>Instalaciones modernas</h3>
+                    <p>Equipamiento de última generación para diagnósticos precisos.</p>
+                </div>
+                <div class="ventaja">
+                    <i class="fas fa-heart"></i>
+                    <h3>Trato amoroso</h3>
+                    <p>Cada mascota recibe atención personalizada y cariñosa.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <p>&copy; <span id="year"></span> Pet House - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/boton-menu.js"></script>
+    <script>
+        // Actualizar año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

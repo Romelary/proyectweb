@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacta a Pet House - Veterinaria especializada en el cuidado de tus mascotas">
+    <title>Pet House - Contacto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Leaflet CSS para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            background: url('img/fondo/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            padding-top: 80px;
+        }
+        
+        /* Estilos adicionales para el mapa */
+        #mapa {
+            height: 300px;
+            width: 100%;
+            border-radius: var(--radio-borde);
+            margin-top: 20px;
+            box-shadow: var(--sombra);
+            border: 3px solid var(--color-blanco);
+        }
+        
+        .info-contacto {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .detalles-contacto {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: var(--radio-borde);
+            box-shadow: var(--sombra);
+        }
+        
+        .formulario-contacto {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: var(--radio-borde);
+            box-shadow: var(--sombra);
+        }
+        
+        .detalles-contacto h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--color-secundario);
+            margin-bottom: 15px;
+        }
+        
+        .detalles-contacto p {
+            margin-bottom: 25px;
+            padding-left: 35px;
+        }
+        
+        .redes-sociales {
+            margin-top: 30px;
+        }
+        
+        .redes-sociales a {
+            display: inline-block;
+            margin-right: 15px;
+            color: var(--color-primario);
+            font-size: 1.5rem;
+            transition: var(--transicion);
+        }
+        
+        .redes-sociales a:hover {
+            color: var(--color-secundario);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .info-contacto {
+                grid-template-columns: 1fr;
+            }
+            
+            .detalles-contacto, .formulario-contacto {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecera">
+        <div class="contenedor">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>Pet House</h1>
+            </div>
+            <nav class="navegacion">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="productos.html">Productos</a>
+                <a href="citas.html">Citas</a>
+                <a href="contacto.html" class="activo">Contacto</a>
+                <a href="login.php" class="boton-login">Ingresar</a>
+            </nav>
+            <button class="boton-menu" aria-label="Menú móvil">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <nav class="mobile-nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+            <li><a href="productos.html"><i class="fas fa-pills"></i> Productos</a></li>
+            <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="contacto.html" class="activo"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+            <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+        </ul>
+    </nav>
+
+    <main class="contenedor">
+        <h1 class="titulo-seccion">Contacto</h1>
+        <p class="subtitulo-seccion">Estamos aquí para ayudarte con el cuidado de tu mascota</p>
+        
+        <div class="info-contacto">
+            <div class="detalles-contacto">
+                <h2><i class="fas fa-map-marker-alt"></i> Dirección</h2>
+                <p>Av. Mariano Santos 123, Lima 15088, Perú</p>
+                
+                <h2><i class="fas fa-phone"></i> Teléfono</h2>
+                <p>(01) 987-6543</p>
+                <p>+51 987 654 321</p>
+                
+                <h2><i class="fas fa-envelope"></i> Correo Electrónico</h2>
+                <p>info@pethouse.com</p>
+                
+                <h2><i class="fas fa-clock"></i> Horario de Atención</h2>
+                <p>Lunes a Viernes: 9:00 am - 7:00 pm</p>
+                <p>Sábados: 9:00 am - 2:00 pm</p>
+                <p>Domingos: Solo emergencias</p>
+                
+                <div class="mapa-container">
+                    <h2><i class="fas fa-map"></i> Nuestra Ubicación</h2>
+                    <div id="mapa"></div>
+                </div>
+                
+                <div class="redes-sociales">
+                    <h2><i class="fas fa-share-alt"></i> Redes Sociales</h2>
+                    <a href="https://facebook.com/pethouse" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://instagram.com/pethouse" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/51987654321" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="formulario-contacto">
+                <h2>Envíanos un mensaje</h2>
+                <form id="formulario-contacto">
+                    <div class="campo">
+                        <label for="nombre">Nombre completo *</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre">
+                    </div>
+                    <div class="campo">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+                    </div>
+                    <div class="campo">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Opcional">
+                    </div>
+                    <div class="campo">
+                        <label for="asunto">Asunto *</label>
+                        <select id="asunto" name="asunto" required>
+                            <option value="">Seleccione un asunto</option>
+                            <option value="consulta">Consulta general</option>
+                            <option value="cita">Agendar cita</option>
+                            <option value="emergencia">Emergencia</option>
+                            <option value="producto">Consulta sobre producto</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="mensaje">Mensaje *</label>
+                        <textarea id="mensaje" name="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
+                    </div>
+                    <button type="submit" class="boton">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <p>&copy; <span id="year"></span> Pet House - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS para el mapa -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="js/boton-menu.js"></script>
+    <script>
+        // Actualizar año automáticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Inicializar mapa
+        function initMap() {
+            // Coordenadas de ejemplo (Av. Mariano Santos en Lima)
+            const latitud = -12.0464;
+            const longitud = -77.0428;
+            
+            const mapa = L.map('mapa').setView([latitud, longitud], 16);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mapa);
+            
+            // Marcador personalizado
+            const iconoVeterinaria = L.icon({
+                iconUrl: 'img/marcador-veterinaria.png', // Puedes crear o usar un icono personalizado
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -40]
+            });
+            
+            L.marker([latitud, longitud], {icon: iconoVeterinaria}).addTo(mapa)
+                .bindPopup("<b>Pet House</b><br>Veterinaria y cuidado de mascotas")
+                .openPopup();
+        }
+        
+        // Esperar a que cargue el DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            
+            // Validación básica del formulario
+            document.getElementById('formulario-contacto').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
