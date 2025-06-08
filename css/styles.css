@@ -1316,3 +1316,130 @@ option[value=""] {
         flex-wrap: wrap;
     }
 }
+
+/* === ESTILOS  PARA CARRITO Y CHECKOUT === */
+
+.tabla-carrito {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background: #fff;
+  box-shadow: var(--sombra-fuerte);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tabla-carrito th,
+.tabla-carrito td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-carrito thead {
+  background-color: var(--color-primario);
+  color: white;
+}
+
+.tabla-carrito tr:hover {
+  background-color: #f9f9f9;
+}
+
+.tabla-carrito td button {
+  background: var(--color-primario);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: var(--transicion);
+}
+
+.tabla-carrito td button:hover {
+  background: var(--color-secundario);
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+  background: crimson !important;
+}
+
+.btn-eliminar:hover {
+  background: darkred !important;
+}
+
+/* Resumen Carrito */
+.resumen-carrito {
+  margin-top: 30px;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.total-carrito {
+  font-size: 1.4rem;
+  color: var(--color-primario);
+  font-weight: bold;
+}
+
+.boton-cancelar {
+  background-color: #999;
+}
+
+.boton-cancelar:hover {
+  background-color: #666;
+}
+
+/* Formulario Pago */
+.formulario-pago {
+  margin-top: 30px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra);
+}
+
+.formulario-pago .campo {
+  margin-bottom: 20px;
+}
+
+.formulario-pago label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--color-secundario);
+}
+
+.formulario-pago input {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radio-borde);
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+}
+
+.formulario-pago button,
+.formulario-pago a.boton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tabla-carrito th,
+  .tabla-carrito td {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .resumen-carrito {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
