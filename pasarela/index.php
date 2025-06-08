@@ -71,11 +71,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Crear boleta
+        // $referencia = 'PET-' . strtoupper(uniqid());
+        // $stmt = $connPagos->prepare("INSERT INTO boletas (total, referencia) VALUES (?, ?)");
+        // $stmt->bind_param("ds", $monto, $referencia);
+        // $stmt->execute();
+        // $boleta_id = $connPagos->insert_id;
         $referencia = 'PET-' . strtoupper(uniqid());
-        $stmt = $connPagos->prepare("INSERT INTO boletas (total, referencia) VALUES (?, ?)");
-        $stmt->bind_param("ds", $monto, $referencia);
+        $usuario_id = $_SESSION['usuario_id'];
+
+        $stmt = $connPagos->prepare("INSERT INTO boletas (usuario_id, total, referencia) VALUES (?, ?, ?)");
+        $stmt->bind_param("ids", $usuario_id, $monto, $referencia);
         $stmt->execute();
         $boleta_id = $connPagos->insert_id;
+
 
         // Guardar detalle de cada producto
         foreach ($carrito as $id => $cantidad) {

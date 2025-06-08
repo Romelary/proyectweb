@@ -6,6 +6,7 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 require_once '../php/conexion.php';
+require_once '../pasarela/conexion.php';
 $usuario_id = $_SESSION['usuario_id'];
 
 // Obtener citas
@@ -21,15 +22,15 @@ if ($resultCitas) {
 
 // Obtener compras
 $compras = [];
-$sqlCompras = "SELECT o.*, 
-                     GROUP_CONCAT(CONCAT(p.nombre, ' (x', d.cantidad, ')') SEPARATOR '<br>') AS productos
-              FROM ordenes o
-              JOIN orden_detalles d ON o.id = d.orden_id
-              JOIN productos p ON d.producto_id = p.id
-              WHERE o.usuario_id = ?
-              GROUP BY o.id
-              ORDER BY o.fecha DESC";
-$stmt = $conn->prepare($sqlCompras);
+$sqlCompras = "SELECT b.fecha, b.total, b.referencia, 
+                      GROUP_CONCAT(CONCAT(d.producto_nombre, ' (x', d.cantidad, ')') SEPARATOR '<br>') AS productos
+               FROM boletas b
+               JOIN boleta_detalles d ON b.id = d.boleta_id
+               WHERE b.usuario_id = ?
+               GROUP BY b.id
+               ORDER BY b.fecha DESC";
+
+$stmt = $connPagos->prepare($sqlCompras);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $resultCompras = $stmt->get_result();
@@ -46,6 +47,7 @@ if ($resultCompras) {
   <title>Dashboard - Pet House</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="styles_user.css">
 </head>
 <body>
   <header class="cabecera">
@@ -114,7 +116,7 @@ if ($resultCompras) {
             <strong>Productos:</strong><br>
             <?php echo $compra['productos']; ?><br>
             <strong>Total:</strong> S/ <?php echo $compra['total']; ?><br>
-            Estado: <?php echo ucfirst($compra['estado']); ?>
+            Estado: <?php echo isset($compra['estado']) ? ucfirst($compra['estado']) : 'Pagado'; ?>
           </div>
         <?php endforeach; ?>
       <?php else: ?>

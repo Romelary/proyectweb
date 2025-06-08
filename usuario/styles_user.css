@@ -1,0 +1,77 @@
+/* Contenedor general */
+.contenedor-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 1rem;
+}
+
+/* Encabezado del usuario */
+.usuario-bienvenida {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Dos columnas */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2rem;
+}
+
+/* Tarjetas */
+.tarjeta {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+}
+
+.tarjeta h2 {
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 0.5rem;
+  color: #2d3e50;
+}
+
+.item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #4b6cb7;
+}
+
+/* Estilos para productos comprados */
+.productos-comprados {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.producto-compra {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.producto-compra img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.producto-compra span {
+  font-weight: 500;
+  color: #333;
+}

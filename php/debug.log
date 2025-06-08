@@ -1,7 +1,7 @@
 Sesion actual:
 Array
 (
-    [csrf_token] => 86d78ba2cdb11d466c48e0f13aabafed4610a9a32c6b409f5d9c894c3afe8f41
+    [csrf_token] => 1855bee07bcad62617af015170ead2e6977dcd02d3b2936e799f2d2f7f74bed1
     [usuario_id] => 7
     [usuario_nombre] => 111
     [usuario] => 1
