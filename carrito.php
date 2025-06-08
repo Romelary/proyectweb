@@ -1,9 +1,9 @@
 <?php
 session_start();
-$usuario_logueado = isset($_SESSION['usuario']);
-
+$usuario_logueado = isset($_SESSION['usuario']) || isset($_SESSION['usuario_id']);
 include_once 'php/conexion.php';
 $carrito = $_SESSION['carrito'] ?? [];
+
 ?>
 
 <!DOCTYPE html>
@@ -24,18 +24,24 @@ $carrito = $_SESSION['carrito'] ?? [];
         <i class="fas fa-paw"></i>
         <h1>Pet House</h1>
       </div>
-      <nav class="navegacion" aria-label="Navegación principal">
-        <a href="index.html">Inicio</a>
-        <a href="servicios.html">Servicios</a>
-        <a href="productos.php">Productos</a>
-        <a href="citas.php">Citas</a>
-        <a href="contacto.html">Contacto</a>
-        <a href="carrito.php" class="carrito-link activo">
-          <i class="fas fa-shopping-cart"></i>
-          <span id="contador-carrito" class="contador-carrito">0</span>
-        </a>
-        <a href="login.php" class="boton-login">Ingresar</a>
-      </nav>
+     <nav class="navegacion" aria-label="Navegación principal">
+  <a href="index.php">Inicio</a>
+  <a href="servicios.php">Servicios</a>
+  <a href="productos.php">Productos</a>
+  <a href="citas.php">Citas</a>
+  <a href="contacto.php">Contacto</a>
+  <a href="carrito.php" class="carrito-link activo">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="contador-carrito" class="contador-carrito">0</span>
+  </a>
+  <?php if ($usuario_logueado): ?>
+    <a href="usuario/dashboard.php">Mis citas y compras</a>
+    <a href="php/cerrar.php" class="boton-login">Cerrar sesión</a>
+  <?php else: ?>
+    <a href="login.php" class="boton-login">Ingresar</a>
+  <?php endif; ?>
+</nav>
+
       <button class="boton-menu" aria-label="Menú móvil" aria-expanded="false">
         <i class="fas fa-bars"></i>
       </button>
@@ -45,14 +51,20 @@ $carrito = $_SESSION['carrito'] ?? [];
   <!-- MENÚ MÓVIL -->
   <nav class="mobile-nav" aria-label="Navegación móvil">
     <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
-      <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
-      <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
-      <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
-      <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
-      <li><a href="carrito.php" class="carrito-link activo"><i class="fas fa-shopping-cart"></i> <span id="contador-carrito">0</span></a></li>
-      <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
-    </ul>
+  <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
+  <li><a href="servicios.php"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+  <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
+  <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
+  <li><a href="contacto.php"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+  <li><a href="carrito.php" class="carrito-link activo"><i class="fas fa-shopping-cart"></i> <span id="contador-carrito-mobile">0</span></a></li>
+  <?php if ($usuario_logueado): ?>
+    <li><a href="usuario/dashboard.php"><i class="fas fa-user-check"></i> Mis citas y compras</a></li>
+    <li><a href="php/cerrar.php"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+  <?php else: ?>
+    <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+  <?php endif; ?>
+</ul>
+
   </nav>
 
   <!-- CONTENIDO PRINCIPAL -->
