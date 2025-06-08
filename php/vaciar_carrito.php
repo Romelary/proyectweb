@@ -2,6 +2,8 @@
 session_start();
 require_once 'conexion.php';
 
+header('Content-Type: application/json');
+
 if (isset($_SESSION['usuario_id'])) {
     $usuario_id = $_SESSION['usuario_id'];
     $stmt = $conn->prepare("DELETE FROM carrito WHERE usuario_id = ?");

@@ -24,36 +24,23 @@ if (isset($_SESSION['usuario_id'])) {
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT id, cantidad FROM carrito WHERE usuario_id = ? AND producto_id = ?");
-    $stmt->bind_param("ii", $usuario_id, $producto_id);
+    // 
+    $stmt = $conn->prepare("
+        INSERT INTO carrito (usuario_id, producto_id, cantidad)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE cantidad = cantidad + VALUES(cantidad)
+    ");
+    $stmt->bind_param("iii", $usuario_id, $producto_id, $cantidad);
     $stmt->execute();
-    $resultado = $stmt->get_result();
 
-    if ($resultado->num_rows > 0) {
-        $row = $resultado->fetch_assoc();
-        $nueva_cantidad = $row['cantidad'] + $cantidad;
-
-        $update = $conn->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
-        $update->bind_param("ii", $nueva_cantidad, $row['id']);
-        $update->execute();
-    } else {
-        $insert = $conn->prepare("INSERT INTO carrito (usuario_id, producto_id, cantidad) VALUES (?, ?, ?)");
-        $insert->bind_param("iii", $usuario_id, $producto_id, $cantidad);
-        $insert->execute();
-    }
-
-    echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito']);
+    echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito (usuario)']);
 } else {
     // Usuario no autenticado: usar $_SESSION
     if (!isset($_SESSION['carrito'])) {
         $_SESSION['carrito'] = [];
     }
 
-    if (isset($_SESSION['carrito'][$producto_id])) {
-        $_SESSION['carrito'][$producto_id] += $cantidad;
-    } else {
-        $_SESSION['carrito'][$producto_id] = $cantidad;
-    }
+    $_SESSION['carrito'][$producto_id] = ($_SESSION['carrito'][$producto_id] ?? 0) + $cantidad;
 
     echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito (sesión)']);
 }
