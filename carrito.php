@@ -1,9 +1,24 @@
 <?php
 session_start();
-$usuario_logueado = isset($_SESSION['usuario']) || isset($_SESSION['usuario_id']);
+$usuario_logueado = isset($_SESSION['usuario']);
 include_once 'php/conexion.php';
-$carrito = $_SESSION['carrito'] ?? [];
 
+$carrito = [];
+
+if ($usuario_logueado && isset($_SESSION['usuario_id'])) {
+    // Leer carrito desde la base de datos
+    $usuario_id = $_SESSION['usuario_id'];
+    $stmt = $conn->prepare("SELECT producto_id, cantidad FROM carrito WHERE usuario_id = ?");
+    $stmt->bind_param("i", $usuario_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    while ($fila = $res->fetch_assoc()) {
+        $carrito[$fila['producto_id']] = $fila['cantidad'];
+    }
+} else {
+    // Carrito desde sesión (usuario no logueado)
+    $carrito = $_SESSION['carrito'] ?? [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,24 +39,18 @@ $carrito = $_SESSION['carrito'] ?? [];
         <i class="fas fa-paw"></i>
         <h1>Pet House</h1>
       </div>
-     <nav class="navegacion" aria-label="Navegación principal">
-  <a href="index.php">Inicio</a>
-  <a href="servicios.php">Servicios</a>
-  <a href="productos.php">Productos</a>
-  <a href="citas.php">Citas</a>
-  <a href="contacto.php">Contacto</a>
-  <a href="carrito.php" class="carrito-link activo">
-    <i class="fas fa-shopping-cart"></i>
-    <span id="contador-carrito" class="contador-carrito">0</span>
-  </a>
-  <?php if ($usuario_logueado): ?>
-    <a href="usuario/dashboard.php">Mis citas y compras</a>
-    <a href="php/cerrar.php" class="boton-login">Cerrar sesión</a>
-  <?php else: ?>
-    <a href="login.php" class="boton-login">Ingresar</a>
-  <?php endif; ?>
-</nav>
-
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="index.php">Inicio</a>
+        <a href="servicios.php">Servicios</a>
+        <a href="productos.php">Productos</a>
+        <a href="citas.php">Citas</a>
+        <a href="contacto.php">Contacto</a>
+        <a href="carrito.php" class="carrito-link activo">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="contador-carrito" class="contador-carrito">0</span>
+        </a>
+        <a href="login.php" class="boton-login">Ingresar</a>
+      </nav>
       <button class="boton-menu" aria-label="Menú móvil" aria-expanded="false">
         <i class="fas fa-bars"></i>
       </button>
@@ -51,20 +60,14 @@ $carrito = $_SESSION['carrito'] ?? [];
   <!-- MENÚ MÓVIL -->
   <nav class="mobile-nav" aria-label="Navegación móvil">
     <ul>
-  <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
-  <li><a href="servicios.php"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
-  <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
-  <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
-  <li><a href="contacto.php"><i class="fas fa-phone-alt"></i> Contacto</a></li>
-  <li><a href="carrito.php" class="carrito-link activo"><i class="fas fa-shopping-cart"></i> <span id="contador-carrito-mobile">0</span></a></li>
-  <?php if ($usuario_logueado): ?>
-    <li><a href="usuario/dashboard.php"><i class="fas fa-user-check"></i> Mis citas y compras</a></li>
-    <li><a href="php/cerrar.php"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
-  <?php else: ?>
-    <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
-  <?php endif; ?>
-</ul>
-
+      <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="servicios.php"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+      <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
+      <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
+      <li><a href="contacto.php"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+      <li><a href="carrito.php" class="carrito-link activo"><i class="fas fa-shopping-cart"></i> <span id="contador-carrito">0</span></a></li>
+      <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+    </ul>
   </nav>
 
   <!-- CONTENIDO PRINCIPAL -->
@@ -128,8 +131,7 @@ $carrito = $_SESSION['carrito'] ?? [];
         <?php if ($usuario_logueado): ?>
           <a href="pasarela/checkout.php" class="boton">Ir a pagar</a>
         <?php else: ?>
-         <button class="boton" id="boton-login-modal" onclick="sessionStorage.setItem('redirigirACheckout', '1')">Ir a pagar</button>
-
+          <button class="boton" id="boton-login-modal">Ir a pagar</button>
         <?php endif; ?>
 
         <button id="vaciar-carrito" class="boton boton-cancelar">Vaciar carrito</button>
@@ -189,35 +191,23 @@ $carrito = $_SESSION['carrito'] ?? [];
   <!-- SCRIPTS -->
   <script src="js/boton-menu.js"></script>
   <script src="js/carrito.js"></script>
- 
   <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  const btnModal = document.getElementById('boton-login-modal');
-  const modal = document.getElementById('modal-login');
-  const cancelarBtn = document.getElementById('cancelar-modal');
+    const btnModal = document.getElementById('boton-login-modal');
+    const modal = document.getElementById('modal-login');
+    const cancelarBtn = document.getElementById('cancelar-modal');
 
-  const usuarioLogueado = <?php echo json_encode($usuario_logueado); ?>;
-
-  if (btnModal) {
-    btnModal.addEventListener('click', function () {
-      // Si ya está logueado, redirigimos directo al checkout
-      if (usuarioLogueado) {
-        window.location.href = 'pasarela/checkout.php';
-      } else {
-        sessionStorage.setItem('redirigirACheckout', '1'); // Guardar intención
-        modal.style.display = 'flex'; // Mostrar modal
-      }
-    });
-  }
-
-  if (cancelarBtn) {
-    cancelarBtn.addEventListener('click', function () {
-      modal.style.display = 'none';
-    });
-  }
-</script>
-
-  <button class="boton" id="boton-login-modal" onclick="sessionStorage.setItem('redirigirACheckout', '1')">Ir a pagar</button>
+    if (btnModal && modal) {
+      btnModal.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+    }
+    if (cancelarBtn) {
+      cancelarBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
+  </script>
 </body>
 </html>

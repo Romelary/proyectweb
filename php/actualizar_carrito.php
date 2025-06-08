@@ -1,57 +1,47 @@
 <?php
 session_start();
-header('Content-Type: application/json');
-require_once 'conexion.php'; // Necesario para consultar el stock
+require_once 'conexion.php';
 
-// Asegurar que la variable de sesión del carrito existe
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = [];
+$data = json_decode(file_get_contents("php://input"), true);
+$producto_id = intval($data['producto_id'] ?? 0);
+$accion = $data['accion'] ?? '';
+
+if ($producto_id < 1 || !in_array($accion, ['sumar', 'restar'])) {
+    echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
+    exit();
 }
 
-// Obtener los datos enviados desde JavaScript
-$data = json_decode(file_get_contents('php://input'), true);
-$producto_id = $data['producto_id'] ?? null;
-$accion = $data['accion'] ?? null;
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
 
-// Validar datos recibidos
-if (!$producto_id || !$accion) {
-    echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
-    exit;
-}
+    $sql = "SELECT id, cantidad FROM carrito WHERE usuario_id = ? AND producto_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $usuario_id, $producto_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
 
-// Asegurarse de que el producto existe en el carrito
-if (!isset($_SESSION['carrito'][$producto_id])) {
-    echo json_encode(['success' => false, 'message' => 'Producto no encontrado en el carrito']);
-    exit;
-}
+    if ($res->num_rows > 0) {
+        $fila = $res->fetch_assoc();
+        $nueva_cantidad = $fila['cantidad'] + ($accion === 'sumar' ? 1 : -1);
+        $nueva_cantidad = max($nueva_cantidad, 1);
 
-// Consultar stock desde la base de datos
-$stmt = $conn->prepare("SELECT stock FROM productos WHERE id = ?");
-$stmt->bind_param("i", $producto_id);
-$stmt->execute();
-$stmt->bind_result($stock);
-$stmt->fetch();
-$stmt->close();
-
-if ($accion === 'sumar') {
-    if ($_SESSION['carrito'][$producto_id] < $stock) {
-        $_SESSION['carrito'][$producto_id]++;
-    } else {
-        echo json_encode(['success' => false, 'message' => 'No hay más stock disponible']);
-        exit;
+        $update = $conn->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
+        $update->bind_param("ii", $nueva_cantidad, $fila['id']);
+        $update->execute();
     }
-} elseif ($accion === 'restar') {
-    $_SESSION['carrito'][$producto_id]--;
 
-    // Si la cantidad baja de 1, eliminar del carrito
-    if ($_SESSION['carrito'][$producto_id] < 1) {
-        unset($_SESSION['carrito'][$producto_id]);
-    }
+    echo json_encode(['success' => true]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Acción inválida']);
-    exit;
-}
+    // Sesión sin login
+    if (!isset($_SESSION['carrito'][$producto_id])) {
+        echo json_encode(['success' => false]);
+        exit();
+    }
 
-// Éxito
-echo json_encode(['success' => true]);
-exit;
+    $_SESSION['carrito'][$producto_id] += ($accion === 'sumar') ? 1 : -1;
+    if ($_SESSION['carrito'][$producto_id] < 1) {
+        $_SESSION['carrito'][$producto_id] = 1;
+    }
+
+    echo json_encode(['success' => true]);
+}

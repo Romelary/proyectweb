@@ -1,13 +1,17 @@
 <?php
 session_start();
-header('Content-Type: application/json');
+require_once 'conexion.php';
 
-$data = json_decode(file_get_contents('php://input'), true);
-$producto_id = $data['producto_id'] ?? null;
+$data = json_decode(file_get_contents("php://input"), true);
+$producto_id = intval($data['producto_id'] ?? 0);
 
-if ($producto_id && isset($_SESSION['carrito'][$producto_id])) {
-    unset($_SESSION['carrito'][$producto_id]);
-    echo json_encode(['success' => true]);
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $stmt = $conn->prepare("DELETE FROM carrito WHERE usuario_id = ? AND producto_id = ?");
+    $stmt->bind_param("ii", $usuario_id, $producto_id);
+    $stmt->execute();
 } else {
-    echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
+    unset($_SESSION['carrito'][$producto_id]);
 }
+
+echo json_encode(['success' => true]);

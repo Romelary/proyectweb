@@ -149,6 +149,7 @@ if ($resultado) {
     <script src="js/boton-menu.js"></script>
     <script src="js/filtros-productos.js"></script>
     <script src="js/carrito.js"></script>
+    
     <script>
         // Actualizar año automáticamente
         document.getElementById('year').textContent = new Date().getFullYear();

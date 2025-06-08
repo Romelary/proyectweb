@@ -1,12 +1,11 @@
 <?php
 session_start();
-header('Content-Type: application/json');
+file_put_contents('debug.log', "Sesion actual:\n" . print_r($_SESSION, true));
 
+header('Content-Type: application/json');
 require_once 'conexion.php';
 
-// Leer JSON del cuerpo
 $data = json_decode(file_get_contents("php://input"), true);
-
 if (!isset($data['producto_id']) || !isset($data['cantidad'])) {
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
     exit();
@@ -16,9 +15,14 @@ $producto_id = intval($data['producto_id']);
 $cantidad = intval($data['cantidad']);
 if ($cantidad < 1) $cantidad = 1;
 
-// Si el usuario está autenticado, usar la base de datos
 if (isset($_SESSION['usuario_id'])) {
+    // Usuario autenticado: guardar en base de datos
     $usuario_id = $_SESSION['usuario_id'];
+
+    if (!$conn) {
+        echo json_encode(['success' => false, 'message' => 'Error de conexión']);
+        exit();
+    }
 
     $stmt = $conn->prepare("SELECT id, cantidad FROM carrito WHERE usuario_id = ? AND producto_id = ?");
     $stmt->bind_param("ii", $usuario_id, $producto_id);
@@ -32,24 +36,15 @@ if (isset($_SESSION['usuario_id'])) {
         $update = $conn->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
         $update->bind_param("ii", $nueva_cantidad, $row['id']);
         $update->execute();
-        $update->close();
     } else {
         $insert = $conn->prepare("INSERT INTO carrito (usuario_id, producto_id, cantidad) VALUES (?, ?, ?)");
         $insert->bind_param("iii", $usuario_id, $producto_id, $cantidad);
         $insert->execute();
-        $insert->close();
     }
 
-    // Obtener total de productos en carrito
-    $res = $conn->prepare("SELECT SUM(cantidad) FROM carrito WHERE usuario_id = ?");
-    $res->bind_param("i", $usuario_id);
-    $res->execute();
-    $res->bind_result($total);
-    $res->fetch();
-    $res->close();
-
+    echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito']);
 } else {
-    // Usuario no logueado → usar carrito en sesión
+    // Usuario no autenticado: usar $_SESSION
     if (!isset($_SESSION['carrito'])) {
         $_SESSION['carrito'] = [];
     }
@@ -60,8 +55,5 @@ if (isset($_SESSION['usuario_id'])) {
         $_SESSION['carrito'][$producto_id] = $cantidad;
     }
 
-    $total = array_sum($_SESSION['carrito']);
+    echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito (sesión)']);
 }
-
-echo json_encode(['success' => true, 'message' => 'Producto añadido al carrito', 'totalItems' => $total]);
-exit();

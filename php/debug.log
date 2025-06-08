@@ -1,0 +1,13 @@
+Sesion actual:
+Array
+(
+    [carrito] => Array
+        (
+            [1] => 1
+        )
+
+    [csrf_token] => dadd7261104225eedef9ad28a44e7797ad4b4f19089bf727a4ed9d89470ffed0
+    [usuario_id] => 7
+    [usuario_nombre] => 111
+    [usuario] => 1
+)

@@ -9,13 +9,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Aumentar/disminuir cantidad
-    document.querySelectorAll('.btn-cantidad').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const productoId = btn.dataset.productoId;
-            const accion = btn.dataset.accion; // "incrementar" o "decrementar"
-            actualizarCantidad(productoId, accion);
-        });
+document.querySelectorAll('.btn-cantidad').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const productoId = btn.dataset.productoId;
+        let accion = btn.dataset.accion; // "incrementar" o "decrementar"
+
+        // Traducir acción al valor que espera el backend
+        if (accion === 'incrementar') accion = 'sumar';
+        if (accion === 'decrementar') accion = 'restar';
+
+        actualizarCantidad(productoId, accion);
     });
+});
 
     // Eliminar del carrito
     document.querySelectorAll('.btn-eliminar').forEach(btn => {
