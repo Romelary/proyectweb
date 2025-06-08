@@ -49,7 +49,10 @@ foreach ($carrito as $id => $cantidad) {
     ];
   }
 }
+
 $_SESSION['monto_total'] = $total;
+
+
 ?>
 
 <!DOCTYPE html>

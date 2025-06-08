@@ -1,4 +1,8 @@
 Sesion actual:
 Array
 (
+    [csrf_token] => 86d78ba2cdb11d466c48e0f13aabafed4610a9a32c6b409f5d9c894c3afe8f41
+    [usuario_id] => 7
+    [usuario_nombre] => 111
+    [usuario] => 1
 )

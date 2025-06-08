@@ -8,13 +8,46 @@ if (!isset($_SESSION['usuario'])) {
 require_once '../php/conexion.php';       // Conexión a pet_house (productos)
 require_once 'conexion.php';              // Conexión a pethouse_pagos (tarjetas y boletas)
 
-if (!isset($_SESSION['monto_total']) || !isset($_SESSION['carrito'])) {
+// if (!isset($_SESSION['monto_total']) || !isset($_SESSION['carrito'])) {
+//     header('Location: ../carrito.php');
+//     exit;
+// }
+
+// $monto = $_SESSION['monto_total'];
+// $carrito = $_SESSION['carrito'];
+$carrito = [];
+
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $stmt = $conn->prepare("SELECT producto_id, cantidad FROM carrito WHERE usuario_id = ?");
+    $stmt->bind_param("i", $usuario_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    while ($row = $res->fetch_assoc()) {
+        $carrito[$row['producto_id']] = $row['cantidad'];
+    }
+} else {
+    $carrito = $_SESSION['carrito'] ?? [];
+}
+
+if (empty($carrito)) {
     header('Location: ../carrito.php');
     exit;
 }
 
-$monto = $_SESSION['monto_total'];
-$carrito = $_SESSION['carrito'];
+$monto = 0;
+foreach ($carrito as $id => $cantidad) {
+    $stmt = $conn->prepare("SELECT precio FROM productos WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $producto = $res->fetch_assoc();
+    if ($producto) {
+        $monto += $producto['precio'] * $cantidad;
+    }
+}
+$_SESSION['monto_total'] = $monto;
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $numero = $_POST['numero'] ?? '';
@@ -63,8 +96,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Limpiar sesión de carrito y guardar boleta
-        unset($_SESSION['carrito']);
-        $_SESSION['ultima_boleta'] = $referencia;
+        // Limpiar carrito (sesión o BD según corresponda)
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $stmt = $conn->prepare("DELETE FROM carrito WHERE usuario_id = ?");
+    $stmt->bind_param("i", $usuario_id);
+    $stmt->execute();
+} else {
+    unset($_SESSION['carrito']);
+}
+
+$_SESSION['ultima_boleta'] = $referencia;
+
 
         header('Location: resultado.php');
         exit;
