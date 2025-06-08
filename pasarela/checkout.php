@@ -6,11 +6,29 @@ if (!isset($_SESSION['usuario'])) {
 }
 include_once '../php/conexion.php';
 
-$carrito = $_SESSION['carrito'] ?? [];
+$carrito = [];
+
+if (isset($_SESSION['usuario_id'])) {
+  // Leer carrito desde base de datos
+  $usuario_id = $_SESSION['usuario_id'];
+  $stmt = $conn->prepare("SELECT producto_id, cantidad FROM carrito WHERE usuario_id = ?");
+  $stmt->bind_param("i", $usuario_id);
+  $stmt->execute();
+  $res = $stmt->get_result();
+  while ($row = $res->fetch_assoc()) {
+    $carrito[$row['producto_id']] = $row['cantidad'];
+  }
+} else {
+  // Leer carrito desde la sesión
+  $carrito = $_SESSION['carrito'] ?? [];
+}
+
+// Si sigue vacío, redirigir
 if (empty($carrito)) {
   header('Location: ../carrito.php');
   exit;
 }
+
 
 $total = 0;
 $detalles = [];
