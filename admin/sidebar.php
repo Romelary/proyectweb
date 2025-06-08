@@ -9,6 +9,6 @@
     <a href="productos.php"><i class="fas fa-box"></i> Productos</a>
     <a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a>
     <a href="usuarios.php"><i class="fas fa-users"></i> Usuarios</a>
-    <a href="contactos.php"><i class="fas fa-envelope"></i> Contactos</a>
+    
     <a href="../php/cerrar.php" style="margin-top:auto; background:#e74c3c;"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
 </div>

@@ -55,20 +55,14 @@ $productos = $conn->query("SELECT COUNT(*) AS total FROM productos")->fetch_asso
                 <p><?= $usuarios['total'] ?></p>
             </div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-envelope"></i></div>
-            <div class="stat-info">
-                <h3>Mensajes</h3>
-                <p><?= $contactos['total'] ?></p>
-            </div>
-        </div>
+        
     </div>
 
     <nav class="admin-menu">
         <a href="productos.php" class="boton">Gestionar Productos</a>
         <a href="citas.php" class="boton">Ver Citas</a>
         <a href="usuarios.php" class="boton">Usuarios</a>
-        <a href="contactos.php" class="boton">Mensajes</a>
+    
     </nav>
     <footer class="pie-pagina">
     <div class="contenedor">
