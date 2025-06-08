@@ -73,32 +73,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Botones editar
   document.querySelectorAll(".btn-editar").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      fetch(`../php/obtener_producto.php?id=${id}`)
-        .then(res => res.json())
-        .then(response => {
-          if (response.success && response.producto) {
-            const producto = response.producto;
-            idField.value = producto.id;
-            nombre.value = producto.nombre;
-            categoria.value = producto.categoria_id;
-            descripcion.value = producto.descripcion;
-            precio.value = producto.precio;
-            precioAnterior.value = producto.precio_anterior;
-            stock.value = producto.stock;
-            destacado.value = producto.destacado;
-            preview.innerHTML = producto.imagen
-              ? `<img src="../${producto.imagen}" style="max-width: 100px;">`
-              : "";
-            document.getElementById("modal-titulo").textContent = "Editar Producto";
-            modal.style.display = "block";
-          } else {
-            alert("Error al obtener producto.");
-          }
-        });
-    });
+  btn.addEventListener("click", () => {
+    const id = btn.dataset.id;
+
+    fetch(`../php/obtener_producto.php?id=${id}`)
+      .then(res => res.json())
+      .then(producto => {
+        if (producto && producto.id) {
+          idField.value = producto.id;
+          nombre.value = producto.nombre;
+          categoria.value = producto.categoria_id;
+          descripcion.value = producto.descripcion;
+          precio.value = producto.precio;
+          precioAnterior.value = producto.precio_anterior;
+          stock.value = producto.stock;
+          destacado.value = producto.destacado;
+          preview.innerHTML = producto.imagen
+            ? `<img src="../${producto.imagen}" style="max-width: 100px;">`
+            : "";
+
+          document.getElementById("modal-titulo").textContent = "Editar Producto";
+          modal.style.display = "block";
+        } else {
+          alert("Error al obtener producto.");
+        }
+      })
+      .catch(error => {
+        console.error("Error de conexión o formato:", error);
+        alert("Error al obtener producto.");
+      });
   });
+});
+
 
   // Botones eliminar
   document.querySelectorAll(".btn-eliminar").forEach(btn => {
