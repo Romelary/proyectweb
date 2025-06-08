@@ -1,6 +1,22 @@
 <?php
 session_start();
+require_once 'php/conexion.php';
 $usuario_activo = isset($_SESSION['usuario']) || isset($_SESSION['usuario_id']);
+
+$horasOcupadasPorFecha = [];
+$hoy = date('Y-m-d');
+$stmt = $conn->prepare("SELECT fecha, hora FROM citas WHERE fecha >= ?");
+$stmt->bind_param("s", $hoy);
+$stmt->execute();
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $fecha = $row['fecha'];
+    $hora = $row['hora'];
+    if (!isset($horasOcupadasPorFecha[$fecha])) {
+        $horasOcupadasPorFecha[$fecha] = [];
+    }
+    $horasOcupadasPorFecha[$fecha][] = $hora;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -161,5 +177,43 @@ $usuario_activo = isset($_SESSION['usuario']) || isset($_SESSION['usuario_id']);
       };
     <?php endif; ?>
   </script>
+
+  <!-- para que no se selcione citas al mimo tiempo -->
+   <script>
+  const horasPorFecha = <?php echo json_encode($horasOcupadasPorFecha); ?>;
+  const horasDisponibles = [
+    "09:00", "10:00", "11:00", "12:00",
+    "14:00", "15:00", "16:00", "17:00"
+  ];
+
+  function actualizarHoras() {
+    const fechaSeleccionada = document.getElementById('fecha').value;
+    const selectHora = document.getElementById('hora');
+    selectHora.innerHTML = '';
+
+    if (!fechaSeleccionada) return;
+
+    const ocupadas = horasPorFecha[fechaSeleccionada] || [];
+    const disponibles = horasDisponibles.filter(hora => !ocupadas.includes(hora));
+
+    if (disponibles.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = 'Sin horarios disponibles';
+      selectHora.appendChild(opt);
+    } else {
+      disponibles.forEach(hora => {
+        const opt = document.createElement('option');
+        opt.value = hora;
+        opt.textContent = hora;
+        selectHora.appendChild(opt);
+      });
+    }
+  }
+
+  document.getElementById('fecha').addEventListener('change', actualizarHoras);
+</script>
+<script src="js/formulario-citas.js"></script>
+
 </body>
 </html>

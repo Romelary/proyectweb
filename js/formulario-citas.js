@@ -1,49 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
+    const selectServicio = document.getElementById('servicio');
+    const selectHora = document.getElementById('hora');
+    const formulario = document.querySelector('.formulario-cita');
+    const fechaInput = document.getElementById('fecha');
+
+    // Preseleccionar servicio desde URL
     const urlParams = new URLSearchParams(window.location.search);
     const servicioSeleccionado = urlParams.get('servicio');
 
-        // Seleccionar automáticamente el servicio si viene en la URL
-     if (servicioSeleccionado) {
-        const selectServicio = document.getElementById('servicio');
+    if (servicioSeleccionado) {
         selectServicio.value = servicioSeleccionado;
-        
-        // Opcional: Scroll hasta el formulario
-        document.querySelector('.formulario-cita').scrollIntoView({
-            behavior: 'smooth'
-        });
+        formulario.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Horarios disponibles
-    const horariosDisponibles = [
-        '09:00', '10:00', '11:00', '12:00', 
-        '15:00', '16:00', '17:00', '18:00'
+    // Cargar servicios si están vacíos
+    const servicios = [
+        { id: 'consulta-general', nombre: 'Consulta General' },
+        { id: 'vacunacion', nombre: 'Vacunación' },
+        { id: 'estetica', nombre: 'Estética Canina' },
+        { id: 'cirugia', nombre: 'Cirugías' },
+        { id: 'odontologia', nombre: 'Odontología' },
+        { id: 'hospitalizacion', nombre: 'Hospitalización' },
+        { id: 'emergencia', nombre: 'Emergencia' }
     ];
-    
-    // Llenar opciones de hora
-    function llenarHorarios() {
-        selectHora.innerHTML = '<option value="">Seleccione hora</option>';
-        
-        horariosDisponibles.forEach(hora => {
-            const option = document.createElement('option');
-            option.value = hora;
-            option.textContent = hora;
-            selectHora.appendChild(option);
-        });
-    }
-    
-    // Cargar servicios desde servicios.html (simulado)
-    function cargarServicios() {
-        const servicios = [
-            { id: 'consulta-general', nombre: 'Consulta General' },
-            { id: 'vacunacion', nombre: 'Vacunación' },
-            { id: 'estetica', nombre: 'Estética Canina' },
-            { id: 'cirugia', nombre: 'Cirugías' },
-            { id: 'odontologia', nombre: 'Odontología' },
-            { id: 'hospitalizacion', nombre: 'Hospitalización' },
-            { id: 'emergencia', nombre: 'Emergencia' }
-        ];
-        
+    if (selectServicio.children.length <= 1) {
         servicios.forEach(servicio => {
             const option = document.createElement('option');
             option.value = servicio.id;
@@ -51,36 +31,83 @@ document.addEventListener('DOMContentLoaded', function() {
             selectServicio.appendChild(option);
         });
     }
-    
-    // Validar y enviar formulario
-    formulario.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Validación básica
-        if (!this.checkValidity()) {
-            alert('Por favor complete todos los campos requeridos');
-            return;
+
+    // Cargar horas disponibles según la fecha seleccionada
+    function cargarHorasDisponibles(fecha) {
+        selectHora.innerHTML = '<option>Cargando...</option>';
+        fetch(`php/horas_disponibles.php?fecha=${fecha}`)
+            .then(response => response.json())
+            .then(horas => {
+                selectHora.innerHTML = '';
+                if (horas.length > 0) {
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = 'Seleccione hora';
+                    selectHora.appendChild(opt);
+                    horas.forEach(hora => {
+                        const option = document.createElement('option');
+                        option.value = hora;
+                        option.textContent = hora;
+                        selectHora.appendChild(option);
+                    });
+                } else {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No hay horarios disponibles';
+                    selectHora.appendChild(option);
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar horas:', error);
+                selectHora.innerHTML = '<option>Error al cargar horarios</option>';
+            });
+    }
+
+    // Cuando cambia la fecha, actualiza horarios
+    fechaInput.addEventListener('change', function() {
+        const fechaSeleccionada = this.value;
+        if (fechaSeleccionada) {
+            cargarHorasDisponibles(fechaSeleccionada);
         }
-        
-        // Obtener datos del formulario
-        const formData = new FormData(this);
-        const datosCita = Object.fromEntries(formData.entries());
-        
-        // Aquí normalmente harías una petición AJAX o fetch a tu backend
-        console.log('Datos de la cita:', datosCita);
-        
-        // Simular envío exitoso
-        alert(`Cita agendada exitosamente para ${datosCita['mascota-nombre']} el ${datosCita.fecha} a las ${datosCita.hora}`);
-        this.reset();
     });
-    
-    // Inicializar
-    llenarHorarios();
-    cargarServicios();
-    
-    // Actualizar horarios cuando cambia la fecha
-    document.getElementById('fecha').addEventListener('change', function() {
-        // Aquí podrías hacer una petición al servidor para obtener horarios disponibles reales
-        console.log('Fecha seleccionada:', this.value);
+
+    // Validación personalizada al enviar
+    formulario.addEventListener('submit', function(e) {
+        let valido = true;
+        const tipo = document.getElementById('tipo');
+        const nombreMascota = document.getElementById('mascota-nombre');
+        const nombreDueño = document.getElementById('nombre');
+        const telefono = document.getElementById('telefono');
+        const email = document.getElementById('email');
+
+        if (
+            selectServicio.value === '' ||
+            tipo.value === '' ||
+            selectHora.value === '' ||
+            nombreMascota.value.trim() === '' ||
+            nombreDueño.value.trim() === '' ||
+            telefono.value.trim() === '' ||
+            email.value.trim() === ''
+        ) {
+            e.preventDefault();
+            valido = false;
+            alert('Por favor complete todos los campos requeridos correctamente.');
+        }
+
+        // Validación del teléfono
+        if (!/^[0-9]{9}$/.test(telefono.value.trim())) {
+            e.preventDefault();
+            valido = false;
+            alert('El número de teléfono debe contener 9 dígitos numéricos.');
+        }
+
+        // Validación básica del correo
+        if (!email.value.includes('@') || !email.value.includes('.')) {
+            e.preventDefault();
+            valido = false;
+            alert('Ingrese un correo electrónico válido.');
+        }
+
+        if (!valido) return;
     });
 });
