@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!empty($email) && !empty($password)) {
-        $stmt = $conn->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, nombre, password, tipo FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $resultado = $stmt->get_result();
@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nombre'] = $usuario['nombre'];
                 $_SESSION['usuario'] = true;
+                $_SESSION['usuario_rol'] = $usuario['tipo'];
 
                 // Si hay productos en el carrito de sesión, sincronizar
                 if (!empty($_SESSION['carrito'])) {
@@ -40,7 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['carrito']); // limpiar el carrito de sesión
                 }
 
-                header('Location: ../index.php');
+                // Redirigir según el rol
+                if ($usuario['tipo'] === 'admin') {
+                    header('Location: ../admin/dashboard.php');
+                } else {
+                    header('Location: ../index.php');
+                }
                 exit();
             } else {
                 $_SESSION['error_login'] = 'Contraseña incorrecta';
