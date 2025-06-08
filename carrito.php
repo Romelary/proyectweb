@@ -128,7 +128,8 @@ $carrito = $_SESSION['carrito'] ?? [];
         <?php if ($usuario_logueado): ?>
           <a href="pasarela/checkout.php" class="boton">Ir a pagar</a>
         <?php else: ?>
-          <button class="boton" id="boton-login-modal">Ir a pagar</button>
+         <button class="boton" id="boton-login-modal" onclick="sessionStorage.setItem('redirigirACheckout', '1')">Ir a pagar</button>
+
         <?php endif; ?>
 
         <button id="vaciar-carrito" class="boton boton-cancelar">Vaciar carrito</button>
@@ -188,23 +189,35 @@ $carrito = $_SESSION['carrito'] ?? [];
   <!-- SCRIPTS -->
   <script src="js/boton-menu.js"></script>
   <script src="js/carrito.js"></script>
+ 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    const btnModal = document.getElementById('boton-login-modal');
-    const modal = document.getElementById('modal-login');
-    const cancelarBtn = document.getElementById('cancelar-modal');
+  const btnModal = document.getElementById('boton-login-modal');
+  const modal = document.getElementById('modal-login');
+  const cancelarBtn = document.getElementById('cancelar-modal');
 
-    if (btnModal && modal) {
-      btnModal.addEventListener('click', () => {
-        modal.style.display = 'flex';
-      });
-    }
-    if (cancelarBtn) {
-      cancelarBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
-    }
-  </script>
+  const usuarioLogueado = <?php echo json_encode($usuario_logueado); ?>;
+
+  if (btnModal) {
+    btnModal.addEventListener('click', function () {
+      // Si ya está logueado, redirigimos directo al checkout
+      if (usuarioLogueado) {
+        window.location.href = 'pasarela/checkout.php';
+      } else {
+        sessionStorage.setItem('redirigirACheckout', '1'); // Guardar intención
+        modal.style.display = 'flex'; // Mostrar modal
+      }
+    });
+  }
+
+  if (cancelarBtn) {
+    cancelarBtn.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  }
+</script>
+
+  <button class="boton" id="boton-login-modal" onclick="sessionStorage.setItem('redirigirACheckout', '1')">Ir a pagar</button>
 </body>
 </html>

@@ -48,7 +48,7 @@ $_SESSION['monto_total'] = $total;
     <div class="contenedor">
       <div class="logo"><i class="fas fa-paw"></i><h1>Pet House</h1></div>
       <nav class="navegacion">
-        <a href="../index.html">Inicio</a>
+        <a href="../index.php">Inicio</a>
         <a href="../productos.php">Productos</a>
         <a href="../carrito.php">Carrito</a>
       </nav>
@@ -86,7 +86,7 @@ $_SESSION['monto_total'] = $total;
       </div>
       <input type="hidden" name="total" value="<?php echo $total; ?>">
       <button type="submit" class="boton">Confirmar Pago</button>
-      <a href="../index.html" class="boton boton-secundario">Cancelar Pago</a>      
+      <a href="../index.php" class="boton boton-secundario">Cancelar Pago</a>      
     </form>
   </main>
 

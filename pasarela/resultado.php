@@ -136,7 +136,7 @@ unset($_SESSION['ultima_boleta']);
 
     <p class="total">Total pagado: S/. <?= number_format($boleta['total'], 2) ?></p>
 
-    <a class="volver" href="../index.html"><i class="fas fa-home"></i> Volver al inicio</a>
+    <a class="volver" href="../index.php"><i class="fas fa-home"></i> Volver al inicio</a>
   </div>
 </body>
 </html>
