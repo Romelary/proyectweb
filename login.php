@@ -7,7 +7,7 @@ if(isset($_SESSION['usuario_id'])) {
     if($_SESSION['usuario_tipo'] == 'admin') {
         header('Location: admin/dashboard.php');
     } else {
-        header('Location: login.php');
+        header('Location: index.html');
     }
     exit();
 }
@@ -16,6 +16,9 @@ if(isset($_SESSION['usuario_id'])) {
 if(empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+// Guardar redirección si viene desde otra página
+$redirect = isset($_GET['redirect']) ? htmlspecialchars($_GET['redirect']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +36,6 @@ if(empty($_SESSION['csrf_token'])) {
             <div class="logo">
                 <i class="fas fa-paw"></i>
                 <h1>Pet House</h1>
-
             </div>
         </div>
     </header>
@@ -41,34 +43,35 @@ if(empty($_SESSION['csrf_token'])) {
     <main class="contenedor">
         <div class="contenedor-login">
             <h1>Iniciar Sesión</h1>
-            
+
             <?php if(isset($_SESSION['error'])): ?>
                 <div class="alert error">
                     <?= $_SESSION['error']; unset($_SESSION['error']); ?>
                 </div>
             <?php endif; ?>
-            
+
             <?php if(isset($_SESSION['exito'])): ?>
                 <div class="alert exito">
                     <?= $_SESSION['exito']; unset($_SESSION['exito']); ?>
                 </div>
             <?php endif; ?>
-            
+
             <form class="formulario-login" action="php/procesar_login.php" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token']; ?>">
-                
+                <input type="hidden" name="redirect" value="<?= $redirect ?>">
+
                 <div class="campo">
                     <label for="email">Correo electrónico</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                
+
                 <div class="campo">
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                
+
                 <button type="submit" class="boton">Ingresar</button>
-                
+
                 <div class="enlaces">
                     <a href="index.html">Volver al inicio</a>
                     <a href="php/recuperar.php">¿Olvidaste tu contraseña?</a>

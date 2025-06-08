@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['usuario'])) {
+    $actual_url = urlencode($_SERVER['REQUEST_URI']);
+    header("Location: login.php?redirect=$actual_url");
+    exit();
+}
 require_once 'conexion.php'; // conexión a pethouse_pagos
 
 $referencia = $_SESSION['ultima_boleta'] ?? null;

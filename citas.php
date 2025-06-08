@@ -1,3 +1,7 @@
+<?php
+session_start();
+$usuario_activo = isset($_SESSION['usuario']);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,6 +11,54 @@
   <title>Pet House - Agendar Cita</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .modal-content h2 {
+      margin-bottom: 20px;
+    }
+    .modal-content .botones {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modal-content .botones a,
+    .modal-content .botones button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .modal-content .botones a {
+      background-color: #2e8b57;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+    }
+    .modal-content .botones button {
+      background-color: #ccc;
+    }
+  </style>
 </head>
 <body>
   <!-- CABECERA -->
@@ -20,7 +72,7 @@
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="productos.php">Productos</a>
-        <a href="citas.html" class="activo">Citas</a>
+        <a href="citas.php" class="activo">Citas</a>
         <a href="contacto.html">Contacto</a>
         <a href="carrito.php" class="carrito-link">
           <i class="fas fa-shopping-cart"></i>
@@ -40,7 +92,7 @@
       <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
       <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
       <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
-      <li><a href="citas.html" class="activo"><i class="fas fa-calendar-check"></i> Citas</a></li>
+      <li><a href="citas.php" class="activo"><i class="fas fa-calendar-check"></i> Citas</a></li>
       <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
       <li><a href="carrito.php" class="carrito-link"><i class="fas fa-shopping-cart"></i> <span class="contador-carrito" id="contador-carrito-mobile">0</span></a></li>
       <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
@@ -57,7 +109,6 @@
         <label for="mascota-nombre">Nombre de la mascota:</label>
         <input type="text" name="mascota-nombre" id="mascota-nombre" required />
       </div>
-
       <div class="campo">
         <label for="tipo">Tipo de mascota:</label>
         <select name="tipo" id="tipo" required>
@@ -67,45 +118,46 @@
           <option value="Otro">Otro</option>
         </select>
       </div>
-
       <div class="campo">
         <label for="servicio">Servicio:</label>
         <select name="servicio" id="servicio" required>
           <option value="">Seleccione</option>
-          <!-- Se completa con JS -->
         </select>
       </div>
-
       <div class="campo">
         <label for="fecha">Fecha:</label>
         <input type="date" name="fecha" id="fecha" required min="<?php echo date('Y-m-d'); ?>" />
       </div>
-
       <div class="campo">
         <label for="hora">Hora:</label>
-        <select name="hora" id="hora" required>
-          <!-- Se llena con JS -->
-        </select>
+        <select name="hora" id="hora" required></select>
       </div>
-
       <div class="campo">
         <label for="nombre">Tu nombre completo:</label>
         <input type="text" name="nombre" id="nombre" required />
       </div>
-
       <div class="campo">
         <label for="telefono">Teléfono:</label>
         <input type="tel" name="telefono" id="telefono" pattern="[0-9]{9}" required placeholder="Ej: 987654321" />
       </div>
-
       <div class="campo">
         <label for="email">Correo electrónico:</label>
         <input type="email" name="email" id="email" required />
       </div>
-
-      <input type="submit" value="Agendar Cita" class="boton" />
+      <input type="submit" value="Agendar Cita" class="boton" <?php if (!$usuario_activo) echo 'onclick="return false;"'; ?> />
     </form>
   </main>
+
+  <!-- Modal Informativo -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2>Para continuar necesitas iniciar sesión</h2>
+      <div class="botones">
+        <a href="login.php">Iniciar sesión</a>
+        <button onclick="window.location.href='servicios.html'">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- PIE DE PÁGINA -->
   <footer class="pie-pagina" aria-label="Pie de página">
@@ -120,6 +172,15 @@
   <script src="js/carrito.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    const modal = document.getElementById('loginModal');
+    function cerrarModal() {
+      modal.style.display = 'none';
+    }
+    <?php if (!$usuario_activo): ?>
+      window.onload = () => {
+        modal.style.display = 'block';
+      };
+    <?php endif; ?>
   </script>
 </body>
 </html>

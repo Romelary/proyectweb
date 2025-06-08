@@ -1,7 +1,8 @@
 <?php
 session_start();
-include_once 'php/conexion.php';
+$usuario_logueado = isset($_SESSION['usuario']);
 
+include_once 'php/conexion.php';
 $carrito = $_SESSION['carrito'] ?? [];
 ?>
 
@@ -27,7 +28,7 @@ $carrito = $_SESSION['carrito'] ?? [];
         <a href="index.html">Inicio</a>
         <a href="servicios.html">Servicios</a>
         <a href="productos.php">Productos</a>
-        <a href="citas.html">Citas</a>
+        <a href="citas.php">Citas</a>
         <a href="contacto.html">Contacto</a>
         <a href="carrito.php" class="carrito-link activo">
           <i class="fas fa-shopping-cart"></i>
@@ -47,7 +48,7 @@ $carrito = $_SESSION['carrito'] ?? [];
       <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
       <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
       <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
-      <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+      <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
       <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
       <li><a href="carrito.php" class="carrito-link activo"><i class="fas fa-shopping-cart"></i> <span id="contador-carrito">0</span></a></li>
       <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
@@ -111,7 +112,13 @@ $carrito = $_SESSION['carrito'] ?? [];
 
       <div class="resumen-carrito">
         <p class="total-carrito">Total: <strong>S/ <?php echo number_format($total, 2); ?></strong></p>
-        <a href="pasarela/checkout.php" class="boton">Ir a pagar</a>
+
+        <?php if ($usuario_logueado): ?>
+          <a href="pasarela/checkout.php" class="boton">Ir a pagar</a>
+        <?php else: ?>
+          <button class="boton" id="boton-login-modal">Ir a pagar</button>
+        <?php endif; ?>
+
         <button id="vaciar-carrito" class="boton boton-cancelar">Vaciar carrito</button>
       </div>
     <?php endif; ?>
@@ -124,11 +131,68 @@ $carrito = $_SESSION['carrito'] ?? [];
     </div>
   </footer>
 
+  <!-- MODAL LOGIN REQUERIDO -->
+  <div id="modal-login" class="modal-overlay" style="display: none;">
+    <div class="modal-contenido">
+      <h2>Iniciar Sesión</h2>
+      <p>Para continuar necesitas iniciar sesión</p>
+      <div class="botones-modal">
+        <a href="login.php" class="boton">Iniciar sesión</a>
+        <button id="cancelar-modal" class="boton cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999;
+    }
+    .modal-contenido {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+    }
+    .botones-modal .boton {
+      display: inline-block;
+      margin: 1rem 0.5rem 0 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .boton.cancelar {
+      background-color: #888;
+    }
+  </style>
+
   <!-- SCRIPTS -->
   <script src="js/boton-menu.js"></script>
   <script src="js/carrito.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const btnModal = document.getElementById('boton-login-modal');
+    const modal = document.getElementById('modal-login');
+    const cancelarBtn = document.getElementById('cancelar-modal');
+
+    if (btnModal && modal) {
+      btnModal.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+    }
+    if (cancelarBtn) {
+      cancelarBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    }
   </script>
 </body>
 </html>

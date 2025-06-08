@@ -53,7 +53,7 @@ if ($resultado) {
                 <a href="index.html">Inicio</a>
                 <a href="servicios.html">Servicios</a>
                 <a href="productos.php" class="activo">Productos</a>
-                <a href="citas.html">Citas</a>
+                <a href="citas.php">Citas</a>
                 <a href="contacto.html">Contacto</a>
                 <a href="carrito.php" class="carrito-link">
                   <i class="fas fa-shopping-cart"></i>
@@ -72,7 +72,7 @@ if ($resultado) {
             <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
             <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
             <li><a href="productos.php" class="activo"><i class="fas fa-pills"></i> Productos</a></li>
-            <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+            <li><a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a></li>
             <li><a href="contacto.html"><i class="fas fa-phone-alt"></i> Contacto</a></li>
              <li><a href="carrito.php" class="carrito-link"><i class="fas fa-shopping-cart"></i> <span class="contador-carrito" id="contador-carrito-mobile">0</span></a></li>
             <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
