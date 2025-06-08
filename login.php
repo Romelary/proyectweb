@@ -7,7 +7,7 @@ if(isset($_SESSION['usuario_id'])) {
     if($_SESSION['usuario_tipo'] == 'admin') {
         header('Location: admin/dashboard.php');
     } else {
-        header('Location: perfil.php');
+        header('Location: login.php');
     }
     exit();
 }
@@ -33,6 +33,7 @@ if(empty($_SESSION['csrf_token'])) {
             <div class="logo">
                 <i class="fas fa-paw"></i>
                 <h1>Pet House</h1>
+
             </div>
         </div>
     </header>
@@ -69,6 +70,7 @@ if(empty($_SESSION['csrf_token'])) {
                 <button type="submit" class="boton">Ingresar</button>
                 
                 <div class="enlaces">
+                    <a href="index.html">Volver al inicio</a>
                     <a href="php/recuperar.php">¿Olvidaste tu contraseña?</a>
                     <a href="php/registrouser.php">Crear cuenta</a>
                 </div>

@@ -1041,6 +1041,94 @@ option[value=""] {
     padding-left: 30px;
 }
 
+/* ===== ESTILOS PARA CHECKOUT ===== */
+.checkout-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.resumen-pedido {
+    background-color: var(--color-blanco);
+    padding: 20px;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra);
+}
+
+.datos-envio {
+    background-color: var(--color-blanco);
+    padding: 20px;
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra);
+}
+
+.producto-checkout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.producto-checkout img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.total-checkout {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.total-checkout span {
+    color: var(--color-primario);
+    font-size: 1.4rem;
+}
+
+@media (max-width: 768px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Contador de carrito */
+.carrito-link {
+    position: relative;
+}
+
+.contador-carrito {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    display: none;
+}
+.contador-carrito {
+    background-color: red;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    display: none;
+}
+.icono-carrito {
+    position: relative;
+}
+
 /* ===== PIE DE PÁGINA ===== */
 .pie-pagina {
     background: var(--color-oscuro);
@@ -1090,5 +1178,141 @@ option[value=""] {
     
     .boton {
         padding: 10px 20px;
+    }
+}
+
+
+/* ====PARA CARRITO Y CHECKOUT ==== */
+
+.carrito-container,
+.checkout-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--sombra-fuerte);
+}
+
+.carrito-titulo,
+.checkout-titulo {
+    font-size: 2rem;
+    color: var(--color-secundario);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Productos en carrito */
+.producto-carrito {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.producto-carrito img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.producto-detalle {
+    flex-grow: 1;
+}
+
+.producto-detalle h3 {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.cantidad-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cantidad-controles button {
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cantidad-controles input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* Total del carrito */
+.total-carrito,
+.total-checkout {
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    color: var(--color-primario);
+}
+
+/* Botones */
+.boton-secundario {
+    background-color: var(--color-secundario);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radio-borde);
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicion);
+}
+
+.boton-secundario:hover {
+    background-color: #0e1a36;
+}
+
+/* Formulario de pago */
+.formulario-pago {
+    margin-top: 20px;
+    background-color: var(--color-blanco);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--sombra);
+}
+
+.formulario-pago .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-pago label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-secundario);
+}
+
+.formulario-pago input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: var(--radio-borde);
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .producto-carrito {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cantidad-controles {
+        flex-wrap: wrap;
     }
 }

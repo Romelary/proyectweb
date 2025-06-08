@@ -1,69 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto</title>
-    <link rel="stylesheet" href="css/styles.css"> 
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contáctanos - Veterinaria Pet House" />
+  <title>Pet House - Contacto</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    
-    <header class="cabecera">
-        <div class="contenedor">
-            <div class="logo">
-                <i class="fas fa-paw"></i>
-                <h1>Pet House</h1>
-            </div>
-            <nav class="navegacion">
-                <a href="index.html" class="activo">Inicio</a>
-                <a href="servicios.html">Servicios</a>
-                <a href="productos.html">Productos</a>
-                <a href="citas.html">Citas</a>
-                <a href="contacto.html">Contacto</a>
-                <a href="login.php" class="boton-login">Ingresar</a>
-            </nav>
-            <button class="boton-menu">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+  <!-- CABECERA -->
+  <header class="cabecera" aria-label="Cabecera principal">
+    <div class="contenedor">
+      <div class="logo">
+        <i class="fas fa-paw"></i>
+        <h1>Pet House</h1>
+      </div>
+      <nav class="navegacion" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="productos.php">Productos</a>
+        <a href="citas.html">Citas</a>
+        <a href="contacto.html" class="activo">Contacto</a>
+        <a href="carrito.php" class="carrito-link">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="contador-carrito" class="contador-carrito">0</span>
+        </a>
+        <a href="login.php" class="boton-login">Ingresar</a>
+      </nav>
+      <button class="boton-menu" aria-label="Menú móvil" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
 
-    <main class="contenedor">
-        <h1>Contacto</h1>
-        
-        <div class="info-contacto">
-            <div class="detalles">
-                <h2><i class="fas fa-map-marker-alt"></i> Dirección</h2>
-                <p>A.v mariano santos</p>
-                
-                <h2><i class="fas fa-phone"></i> Teléfono</h2>
-                <p>9**-***-***</p>
-            </div>
-            
-            <div class="formulario">
-                <h2>Envíanos un mensaje</h2>
-                <form>
-                    <div class="campo">
-                        <input type="text" placeholder="Nombre" required>
-                    </div>
-                    <div class="campo">
-                        <input type="email" placeholder="Correo" required>
-                    </div>
-                    <div class="campo">
-                        <textarea placeholder="Mensaje" required></textarea>
-                    </div>
-                    <button type="submit" class="boton">Enviar</button>
-                </form>
-            </div>
-        </div>
-    </main>
+  <!-- MENÚ MÓVIL -->
+  <nav class="mobile-nav" aria-label="Navegación móvil">
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="servicios.html"><i class="fas fa-clinic-medical"></i> Servicios</a></li>
+      <li><a href="productos.php"><i class="fas fa-pills"></i> Productos</a></li>
+      <li><a href="citas.html"><i class="fas fa-calendar-check"></i> Citas</a></li>
+      <li><a href="contacto.html" class="activo"><i class="fas fa-phone-alt"></i> Contacto</a></li>
+       <li><a href="carrito.php" class="carrito-link"><i class="fas fa-shopping-cart"></i> <span class="contador-carrito" id="contador-carrito-mobile">0</span></a></li>
+      <li><a href="login.php"><i class="fas fa-user"></i> Login</a></li>
+    </ul>
+  </nav>
 
-    <footer class="pie-pagina">
-        <div class="contenedor">
-            <p>&copy; 2023 Patitas Felices - Todos los derechos reservados</p>
-        </div>
-    </footer>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="contenedor">
+    <h1 class="titulo-seccion">Contáctanos</h1>
+    <p class="subtitulo-seccion">¿Tienes dudas o necesitas ayuda? Envíanos un mensaje</p>
 
+    <form action="mailto:tuemail@pethouse.com" method="POST" enctype="text/plain" class="formulario-contacto">
+      <div class="campo">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" name="nombre" id="nombre" required />
+      </div>
+
+      <div class="campo">
+        <label for="email">Correo electrónico:</label>
+        <input type="email" name="email" id="email" required />
+      </div>
+
+      <div class="campo">
+        <label for="asunto">Asunto:</label>
+        <input type="text" name="asunto" id="asunto" required />
+      </div>
+
+      <div class="campo">
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" id="mensaje" rows="5" required></textarea>
+      </div>
+
+      <input type="submit" value="Enviar mensaje" class="boton" />
+    </form>
+
+    <!-- Mapa -->
+    <section class="mapa-seccion">
+      <h2>Nuestra ubicación</h2>
+      <div id="mapa" style="height: 300px; border-radius: 10px;"></div>
+    </section>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="pie-pagina" aria-label="Pie de página">
+    <div class="contenedor">
+      <p>&copy; <span id="year"></span> Pet House - Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/boton-menu.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="js/carrito.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mapa con Leaflet.js
+    const mapa = L.map('mapa').setView([-12.0464, -77.0428], 15); // Cambia coordenadas a las de tu veterinaria
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mapa);
+    L.marker([-12.0464, -77.0428]).addTo(mapa)
+      .bindPopup('Pet House Veterinaria')
+      .openPopup();
+  </script>
 </body>
 </html>
