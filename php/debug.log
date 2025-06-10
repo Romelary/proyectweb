@@ -1,4 +1,9 @@
 Sesion actual:
 Array
 (
+    [csrf_token] => c95ad3e404b571848ca72dfe596385fa5b2469199c56bd01a8fa86708272b51c
+    [usuario_id] => 5
+    [usuario_nombre] => romel
+    [usuario] => 1
+    [usuario_rol] => cliente
 )
