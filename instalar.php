@@ -88,4 +88,5 @@ $stmt->close();
 $conn->close();
 
 echo "<p>🎉 Instalación finalizada correctamente.</p>";
+include __DIR__ . '/migrate_products.php';
 ?>
