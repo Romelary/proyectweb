@@ -81,12 +81,12 @@ if ($stmt->num_rows === 0) {
         echo "<p> Error al insertar admin: " . $stmt->error . "</p>";
     }
 } else {
-    echo "<p>⚠️ El usuario administrador ya existe.</p>";
+    echo "<p> El usuario administrador ya existe.</p>";
 }
 
 $stmt->close();
 $conn->close();
 
-echo "<p>🎉 Instalación finalizada correctamente.</p>";
+echo "<p> Instalación finalizada correctamente.</p>";
 include __DIR__ . '/migrate_products.php';
 ?>
