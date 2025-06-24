@@ -6,8 +6,18 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 require_once 'conexion.php'; // conexión a pethouse_pagos
+require_once '../php/conexion.php';
+
+
 
 $referencia = $_SESSION['ultima_boleta'] ?? null;
+
+// agregando user data
+$usuario_id = $_SESSION['usuario_id'] ?? null;
+$stmt = $conn->prepare("SELECT nombre, email, telefono FROM usuarios WHERE id = ?");
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$usuario = $stmt->get_result()->fetch_assoc();
 
 if (!$referencia) {
     echo "<p>No hay una compra reciente registrada.</p>";
@@ -111,8 +121,11 @@ unset($_SESSION['ultima_boleta']);
     <h1><i class="fas fa-receipt"></i> Boleta de Pago</h1>
 
     <div class="boleta-info">
-      <p><strong>Referencia:</strong> <?= htmlspecialchars($referencia) ?></p>
-      <p><strong>Fecha:</strong> <?= htmlspecialchars($boleta['fecha']) ?></p>
+     <p><strong>Referencia:</strong> <?= htmlspecialchars($referencia) ?></p>
+  <p><strong>Fecha:</strong> <?= htmlspecialchars($boleta['fecha']) ?></p>
+  <p><strong>Cliente:</strong> <?= htmlspecialchars($usuario['nombre']) ?></p>
+  <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
+  <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
     </div>
 
     <table>

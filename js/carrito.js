@@ -9,16 +9,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Aumentar/disminuir cantidad
+// document.querySelectorAll('.btn-cantidad').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         const productoId = btn.dataset.productoId;
+//         let accion = btn.dataset.accion; // "incrementar" o "decrementar"
+
+//         // Traducir acción al valor que espera el backend
+//         if (accion === 'incrementar') accion = 'sumar';
+//         if (accion === 'decrementar') accion = 'restar';
+
+//         actualizarCantidad(productoId, accion);
+//     });
+// });
 document.querySelectorAll('.btn-cantidad').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
         const productoId = btn.dataset.productoId;
-        let accion = btn.dataset.accion; // "incrementar" o "decrementar"
+        let accion = btn.dataset.accion;
 
-        // Traducir acción al valor que espera el backend
-        if (accion === 'incrementar') accion = 'sumar';
-        if (accion === 'decrementar') accion = 'restar';
+        // Obtener cantidad actual desde el DOM
+        const cantidadSpan = btn.parentElement.querySelector('span');
+        const cantidadActual = parseInt(cantidadSpan.textContent);
 
-        actualizarCantidad(productoId, accion);
+        if (accion === 'incrementar') {
+            try {
+                const res = await fetch(`../consultar_stock.php?id=${productoId}`);
+                const data = await res.json();
+                const stock = data.stock ?? 0;
+
+                if (cantidadActual < stock) {
+                    actualizarCantidad(productoId, 'sumar');
+                } else {
+                    mostrarError('No hay más stock disponible para este producto.');
+                }
+            } catch (error) {
+                mostrarError('Error al verificar stock.');
+            }
+        } else if (accion === 'decrementar') {
+            if (cantidadActual > 1) {
+                actualizarCantidad(productoId, 'restar');
+            }
+        }
     });
 });
 

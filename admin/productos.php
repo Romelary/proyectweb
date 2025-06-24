@@ -2,6 +2,8 @@
 session_start();
 require_once '../php/conexion.php';
 $productos = $conn->query("SELECT * FROM productos")->fetch_all(MYSQLI_ASSOC);
+$categorias = $conn->query("SELECT id, nombre FROM categorias")->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -42,10 +44,10 @@ $productos = $conn->query("SELECT * FROM productos")->fetch_all(MYSQLI_ASSOC);
 
       <label for="categoria_id">Categoría:</label>
       <select name="categoria_id" id="categoria_id" required>
-        <option value="">Seleccionar</option>
-        <option value="1">Accesorios</option>
-        <option value="2">Comida</option>
-        <option value="3">Medicinas</option>
+                    <option value="">Seleccionar</option>
+            <?php foreach ($categorias as $cat): ?>
+                <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['nombre']) ?></option>
+            <?php endforeach; ?>
       </select>
 
       <label for="descripcion">Descripción:</label>

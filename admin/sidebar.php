@@ -7,6 +7,7 @@
     </div>
     <a href="dashboard.php"><i class="fas fa-home"></i> Dashboard</a>
     <a href="productos.php"><i class="fas fa-box"></i> Productos</a>
+    <a href="categorias.php"><i class="fas fa-box"></i> Categorias</a>
     <a href="citas.php"><i class="fas fa-calendar-check"></i> Citas</a>
     <a href="usuarios.php"><i class="fas fa-users"></i> Usuarios</a>
     

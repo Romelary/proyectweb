@@ -86,22 +86,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         // Guardar detalle de cada producto
-        foreach ($carrito as $id => $cantidad) {
-            $stmtProd = $conn->prepare("SELECT nombre, precio FROM productos WHERE id = ?");
-            $stmtProd->bind_param("i", $id);
-            $stmtProd->execute();
-            $res = $stmtProd->get_result();
-            $producto = $res->fetch_assoc();
+        // Guardar detalle de cada producto y descontar stock
+foreach ($carrito as $id => $cantidad) {
+    $stmtProd = $conn->prepare("SELECT nombre, precio, stock FROM productos WHERE id = ?");
+    $stmtProd->bind_param("i", $id);
+    $stmtProd->execute();
+    $res = $stmtProd->get_result();
+    $producto = $res->fetch_assoc();
 
-            if ($producto) {
-                $nombreProd = $producto['nombre'];
-                $subtotal = $producto['precio'] * $cantidad;
+    if ($producto) {
+        // Verificar stock suficiente
+        if ($producto['stock'] >= $cantidad) {
+            $nombreProd = $producto['nombre'];
+            $subtotal = $producto['precio'] * $cantidad;
 
-                $stmtDet = $connPagos->prepare("INSERT INTO boleta_detalles (boleta_id, producto_nombre, cantidad, subtotal) VALUES (?, ?, ?, ?)");
-                $stmtDet->bind_param("isid", $boleta_id, $nombreProd, $cantidad, $subtotal);
-                $stmtDet->execute();
-            }
+            // Guardar detalle en la boleta
+            $stmtDet = $connPagos->prepare("INSERT INTO boleta_detalles (boleta_id, producto_nombre, cantidad, subtotal) VALUES (?, ?, ?, ?)");
+            $stmtDet->bind_param("isid", $boleta_id, $nombreProd, $cantidad, $subtotal);
+            $stmtDet->execute();
+
+            // Descontar stock
+            $stmtStock = $conn->prepare("UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?");
+            $stmtStock->bind_param("iii", $cantidad, $id, $cantidad);
+            $stmtStock->execute();
+        } else {
+            // Si no hay stock suficiente, cancelar el proceso y mostrar error
+            echo "<script>alert('No hay stock suficiente para el producto: {$producto['nombre']}'); window.location.href = '../carrito.php';</script>";
+            exit;
         }
+    }
+}
+
 
         // Limpiar sesión de carrito y guardar boleta
         // Limpiar carrito (sesión o BD según corresponda)

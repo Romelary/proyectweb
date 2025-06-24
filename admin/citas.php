@@ -35,7 +35,7 @@ $citas = $conn->query("SELECT * FROM citas ORDER BY fecha DESC")->fetch_all(MYSQ
             <?php foreach ($citas as $c): ?>
                 <tr>
                     <td><?= $c['id'] ?></td>
-                    <td><?= htmlspecialchars($c['cliente'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($c['usuario_id'] ?? '-') ?></td>
                     <td><?= htmlspecialchars($c['nombre_mascota']) ?></td>
                     <td><?= htmlspecialchars($c['tipo_mascota']) ?></td>
                     <td><?= htmlspecialchars($c['servicio']) ?></td>

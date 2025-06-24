@@ -9,6 +9,15 @@ $conexion = new mysqli("localhost", "romel", "123456", "pet_house");
 if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
+// parte de categorias
+$categorias_query = "SELECT * FROM categorias";
+$categorias_resultado = $conexion->query($categorias_query);
+$categorias = [];
+
+if ($categorias_resultado) {
+    $categorias = $categorias_resultado->fetch_all(MYSQLI_ASSOC);
+}
+
 
 $query = "SELECT p.*, c.nombre as categoria_nombre 
           FROM productos p 
@@ -88,10 +97,14 @@ if ($resultado) {
         <p class="subtitulo-seccion">Calidad y variedad para el cuidado de tu mascota</p>
         
         <div class="filtros">
-            <button class="boton-filtro activo" data-categoria="todos">Todos</button>
-            <button class="boton-filtro" data-categoria="alimentos">Alimentos</button>
-            <button class="boton-filtro" data-categoria="medicamentos">Medicamentos</button>
-            <button class="boton-filtro" data-categoria="accesorios">Accesorios</button>
+                <button class="boton-filtro activo" data-categoria="todos">Todos</button>
+        <?php foreach ($categorias as $cat): ?>
+            <button class="boton-filtro" data-categoria="<?= strtolower($cat['nombre']) ?>">
+                <i class="fas <?= htmlspecialchars($cat['icono']) ?>"></i> <?= htmlspecialchars($cat['nombre']) ?>
+
+            </button>
+        <?php endforeach; ?>
+            <button class="boton-filtro" data-categoria="destacados">Destacados</button>  
         </div>
         
         <div class="lista-productos">

@@ -60,8 +60,10 @@ $productos = $conn->query("SELECT COUNT(*) AS total FROM productos")->fetch_asso
 
     <nav class="admin-menu">
         <a href="productos.php" class="boton">Gestionar Productos</a>
+        <a href="categorias.php" class="boton">Categorias</a>
         <a href="citas.php" class="boton">Ver Citas</a>
         <a href="usuarios.php" class="boton">Usuarios</a>
+        
     
     </nav>
     <footer class="pie-pagina">
